@@ -38,3 +38,8 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          # GKE Autopilot injects fields (resource-request minimums, NET_RAW drop,
+          # seccompProfile) via mutating webhooks. Server-Side Apply makes Argo co-own
+          # only its own fields and tolerate Autopilot's — without it every app sits
+          # Healthy-but-OutOfSync forever. Required for any GitOps deploy to Autopilot.
+          - ServerSideApply=true
