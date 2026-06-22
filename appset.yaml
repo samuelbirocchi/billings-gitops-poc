@@ -32,6 +32,14 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: billings
+      # GKE Autopilot rewrites container resources (bumps requests to its minimums +
+      # injects ephemeral-storage). Ignore that subtree so Argo doesn't fight the
+      # platform — paired with RespectIgnoreDifferences below so sync also skips it.
+      ignoreDifferences:
+        - group: apps
+          kind: Deployment
+          jqPathExpressions:
+            - .spec.template.spec.containers[].resources
       syncPolicy:
         automated:
           prune: true
@@ -43,3 +51,4 @@ spec:
           # only its own fields and tolerate Autopilot's — without it every app sits
           # Healthy-but-OutOfSync forever. Required for any GitOps deploy to Autopilot.
           - ServerSideApply=true
+          - RespectIgnoreDifferences=true
