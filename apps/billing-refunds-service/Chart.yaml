@@ -1,0 +1,6 @@
+apiVersion: v2
+name: billing-refunds-service
+description: 6th app added to prove ApplicationSet auto-discovery
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
