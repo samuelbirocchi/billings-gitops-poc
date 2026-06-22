@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: billings
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    # Git directory generator: one Application per apps/<service> folder.
+    # Add a new folder -> a new Application appears automatically. This is the
+    # property that lets one template onboard all ~278 repos with zero per-repo YAML.
+    - git:
+        repoURL: https://github.com/samuelbirocchi/billings-gitops-poc.git
+        revision: HEAD
+        directories:
+          - path: apps/*
+  template:
+    metadata:
+      name: 'billings-{{.path.basename}}'
+      labels:
+        app.kubernetes.io/part-of: billings
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/samuelbirocchi/billings-gitops-poc.git
+        targetRevision: HEAD
+        path: '{{.path.path}}'
+        helm:
+          valueFiles:
+            - values.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: billings
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: billing-engine-service
+description: GitOps PoC stand-in chart for billing-engine-service (backend)
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

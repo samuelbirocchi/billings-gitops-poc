@@ -1,0 +1,5 @@
+name: closing-script
+component: batch
+replicas: 1
+port: 8080
+image: traefik/whoami:v1.10.2

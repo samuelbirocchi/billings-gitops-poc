@@ -1,0 +1,5 @@
+name: billing-engine-service
+component: backend
+replicas: 2
+port: 8080
+image: traefik/whoami:v1.10.2

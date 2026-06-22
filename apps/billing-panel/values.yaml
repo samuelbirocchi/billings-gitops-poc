@@ -1,0 +1,5 @@
+name: billing-panel
+component: frontend
+replicas: 1
+port: 80
+image: traefik/whoami:v1.10.2

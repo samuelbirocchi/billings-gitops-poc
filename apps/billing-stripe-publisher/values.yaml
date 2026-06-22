@@ -1,0 +1,5 @@
+name: billing-stripe-publisher
+component: publisher
+replicas: 1
+port: 8080
+image: traefik/whoami:v1.10.2
